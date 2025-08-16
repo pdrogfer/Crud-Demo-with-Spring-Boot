@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
     public EmployeeDAOImpl(EntityManager entityManager) {
@@ -29,5 +29,35 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
         // return result
         return employeesResult;
+    }
+
+    @Override
+    public Employee findById(int id) {
+
+        Employee employee = entityManager.find(Employee.class, id);
+
+        return employee;
+    }
+
+    // @Transactional is moved to the Service layer
+    @Override
+    public Employee save(Employee employee) {
+
+        /*
+        * if id == 0, it performs an insert/save. Else, an update.
+        * It returns the new/updated employee
+        */
+        Employee dbEmployee = entityManager.merge(employee);
+
+        return dbEmployee;
+    }
+
+    // @Transactional is moved to the Service layer
+    @Override
+    public void deleteById(int id) {
+
+        Employee dbEmployee = entityManager.find(Employee.class, id);
+
+        entityManager.remove(dbEmployee);
     }
 }

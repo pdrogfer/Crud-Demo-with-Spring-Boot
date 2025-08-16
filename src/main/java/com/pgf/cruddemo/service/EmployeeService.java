@@ -1,10 +1,10 @@
-package com.pgf.cruddemo.dao;
+package com.pgf.cruddemo.service;
 
 import com.pgf.cruddemo.entity.Employee;
 
 import java.util.List;
 
-public interface EmployeeDAO {
+public interface EmployeeService {
 
     List<Employee> findAll();
 
